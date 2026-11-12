@@ -1,0 +1,110 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class ResumoCatalogo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int[] cargaHoraria = new int[10];
+        System.out.println("=== LEITURA DA CARGA HORÁRIA DOS CURSOS ===");
+        for (int i = 0; i < cargaHoraria.length; i++) {
+            while (true) {
+                System.out.print("Digite a carga horária do Curso " + (i + 1) + " (maior que 0 e até 400 horas): ");
+                if (scanner.hasNextInt()) {
+                    int valor = scanner.nextInt();
+                    if (valor > 0 && valor <= 400) {
+                        cargaHoraria[i] = valor;
+                        break;
+                    } else {
+                        System.out.println("Valor inválido! O valor deve estar entre 1 e 400.");
+                    }
+                } else {
+                    System.out.println("Entrada inválida! Digite um número inteiro.");
+                    scanner.next();
+                }
+            }
+        }
+        System.out.println("\n=== LISTAGEM DE CURSOS ===");
+        for (int i = 0; i < cargaHoraria.length; i++) {
+            System.out.println("Curso " + (i + 1) + ": " + cargaHoraria[i] + " horas");
+        }
+        int somaTotal = 0;
+        for (int i = 0; i < cargaHoraria.length; i++) {
+            somaTotal += cargaHoraria[i];
+        }
+        double mediaHoras = (double) somaTotal / cargaHoraria.length;
+        System.out.println("\n=== TOTAL E MÉDIA ===");
+        System.out.println("Total de horas de todos os cursos: " + somaTotal + " horas");
+        System.out.println("Média de horas por curso: " + mediaHoras + " horas");
+        int maiorCarga = cargaHoraria[0];
+        int menorCarga = cargaHoraria[0];
+        int posicaoMaior = 0;
+        int posicaoMenor = 0;
+        for (int i = 1; i < cargaHoraria.length; i++) {
+            if (cargaHoraria[i] > maiorCarga) {
+                maiorCarga = cargaHoraria[i];
+                posicaoMaior = i;
+            }
+            if (cargaHoraria[i] < menorCarga) {
+                menorCarga = cargaHoraria[i];
+                posicaoMenor = i;
+            }
+        }
+        System.out.println("\n=== MAIOR E MENOR CURSO ===");
+        System.out.println("Maior carga: Curso " + (posicaoMaior + 1) + " com " + maiorCarga + " horas");
+        System.out.println("Menor carga: Curso " + (posicaoMenor + 1) + " com " + menorCarga + " horas");
+        int contadorCurta = 0;
+        int contadorMedia = 0;
+        int contadorLonga = 0;
+        for (int i = 0; i < cargaHoraria.length; i++) {
+            if (cargaHoraria[i] < 40) {
+                contadorCurta++;
+            } else if (cargaHoraria[i] >= 40 && cargaHoraria[i] <= 99) {
+                contadorMedia++;
+            } else {
+                contadorLonga++;
+            }
+        }
+        System.out.println("\n=== CLASSIFICAÇÃO DOS CURSOS ===");
+        System.out.println("Curta duração (< 40h): " + contadorCurta + " curso(s)");
+        System.out.println("Média duração (40 a 99h): " + contadorMedia + " curso(s)");
+        System.out.println("Longa duração (100h+): " + contadorLonga + " curso(s)");
+        ArrayList<Integer> listaLongaDuracao = new ArrayList<>();
+        for (int i = 0; i < cargaHoraria.length; i++) {
+            if (cargaHoraria[i] >= 100) {
+                listaLongaDuracao.add(cargaHoraria[i]);
+            }
+        }
+        System.out.println("\n=== LISTA DE CURSOS DE LONGA DURAÇÃO ===");
+        if (listaLongaDuracao.isEmpty()) {
+            System.out.println("Nenhum curso de longa duração.");
+        } else {
+            System.out.print("Cargas horárias longas: ");
+            for (int hora : listaLongaDuracao) {
+                System.out.print(hora + "h ");
+            }
+            System.out.println();
+        }
+        System.out.println("\n=== BUSCA POR CARGA HORÁRIA ===");
+        System.out.print("Informe uma carga horária para buscar: ");
+        int cargaBusca = scanner.nextInt();
+        int encontrados = 0;
+        System.out.print("Encontrado no(s) curso(s): ");
+        for (int i = 0; i < cargaHoraria.length; i++) {
+            if (cargaHoraria[i] == cargaBusca) {
+                System.out.print((i + 1) + " ");
+                encontrados++;
+            }
+        }
+        if (encontrados == 0) {
+            System.out.println("\nNenhum curso com essa carga horária.");
+        } else {
+            System.out.println("(Total de " + encontrados + " curso(s) correspondente(s))");
+        }
+        System.out.println("\n=== ORDEM INVERSA (DO ÚLTIMO AO PRIMEIRO) ===");
+        for (int i = cargaHoraria.length - 1; i >= 0; i--) {
+            System.out.println("Curso " + (i + 1) + ": " + cargaHoraria[i] + " horas");
+        }
+
+        scanner.close();
+    }
+}
